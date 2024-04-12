@@ -9,7 +9,7 @@ import socket
 
 
 mc = MyCobot('/dev/ttyACM0', 115200)
-# 로봇 제어 함수
+# 로봇 제어 함 
 
 # 로봇팔 home position
 def init_position():
