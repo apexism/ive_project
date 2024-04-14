@@ -56,7 +56,7 @@ def picking_scan():
     pass
 
 
-
+#
 
 
 def placing_scan():
