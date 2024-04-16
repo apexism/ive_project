@@ -22,9 +22,9 @@ def init_position():
 # 전체 상자 스캔 위치로 이동
 def goto_photo():
     print("go to take photo", mc.get_angles())
-    mc.send_angles([90, 0, 0, 0, -90, 0], 30)
+    mc.send_angles([90, 0, 0, 0, -90, 0], 90)
     time.sleep(5)  # 로봇 각 동작 사이의 딜레이 설정
-    mc.send_coords([-100, -250, 350, -89.99, 90, -179.91], 10)
+    mc.send_coords([-100, -250, 350, -89.99, 90, -179.91], 90)
     time.sleep(5)
 
 def goto_pick():

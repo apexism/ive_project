@@ -39,6 +39,9 @@ def main():
         init_position()
         goto_photo()
         whole_scan()
+        # 함수 실행과 결과 출력
+        qr_codes = whole_scan()
+        print("Scanned QR Codes:", qr_codes)
         goto_pick()
         open_gripper()
         picking_scan()
