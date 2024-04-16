@@ -51,9 +51,6 @@ def main():
         open_gripper()
 
 
-
-        
-
         
 
 if __name__ == "__main__":
