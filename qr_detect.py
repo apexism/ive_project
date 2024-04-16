@@ -54,3 +54,4 @@ def read_qr_code():
 
 if __name__ == "__main__":
     read_qr_code()
+    
