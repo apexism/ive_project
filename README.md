@@ -11,8 +11,8 @@ git push --set-upstream origin [branch 이름] #git 에 브렌치 추가
 git add .
 git commit -m "first commit"
 git push origin beta_code
-# 마스터 브렌치에 소스 가져오기
-git pull origin master
+# 마스터 브렌치에 소스 가져오기(완전 확정되기 전까지 입력하지 않는다)
+git pull origin master 
 # 브렌치끼리 이동하는 법
 git checkout [브렌치 이름]
 
