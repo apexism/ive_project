@@ -5,8 +5,10 @@ import time
 import cv2
 import os
 from pyzbar import pyzbar
+from pyzbar.pyzbar import decode
 import socket
-
+import numpy as np
+import math
 
 def send_data_via_socket(data):
     # 서버의 IP 주소와 포트 번호
@@ -39,9 +41,6 @@ def main():
         init_position()
         goto_photo()
         whole_scan()
-        # 함수 실행과 결과 출력
-        qr_codes = whole_scan()
-        print("Scanned QR Codes:", qr_codes)
         goto_pick()
         open_gripper()
         picking_scan()
@@ -50,8 +49,7 @@ def main():
         goto_place()
         open_gripper()
 
-
-        
+      
 
 if __name__ == "__main__":
     main()

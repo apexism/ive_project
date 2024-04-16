@@ -1,17 +1,9 @@
-from camera_control import *
-from pick_place import *
-from pymycobot.mycobot import MyCobot
-import time
 import cv2
-import os
-from pyzbar import pyzbar
-from pyzbar.pyzbar import decode
 import numpy as np
 import math
-import socket
+from pyzbar.pyzbar import decode
 
-
-def whole_scan():
+def read_qr_code():
     cap = cv2.VideoCapture(2)
 
     while True:
@@ -53,20 +45,5 @@ def whole_scan():
     cap.release()
     cv2.destroyAllWindows()
 
-
-def picking_scan():
-    # QR코드 스캔하여 박스위치 파악하는 스캔 작업
-
-
-
-    pass
-
-
-
-
-
-def placing_scan():
-    # 상자를 놓읗 위치를 스캔
-
-
-    pass
+if __name__ == "__main__":
+    read_qr_code()
