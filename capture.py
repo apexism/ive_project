@@ -4,7 +4,8 @@ import pyzbar.pyzbar as pyzbar
 
 
 image_count = 0
-cap = cv2.VideoCapture('/dev/video2')  # 카메라 장치 설정
+# cap = cv2.VideoCapture('/dev/video2')  # 카메라 장치 설정
+cap = cv2.VideoCapture(1)  # 카메라 장치 설정
 save_directory = "img_capture"
 os.makedirs(save_directory, exist_ok=True)
 

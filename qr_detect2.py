@@ -4,7 +4,7 @@ import math
 from pyzbar.pyzbar import decode
 
 def read_qr_code():
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
 
     while True:
         ret, frame = cap.read()

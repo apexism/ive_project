@@ -36,20 +36,20 @@ def send_data_via_socket(data):
 
 # 메인 함수
 def main():
+    mc = MyCobot('COM3', 115200)
    
     while True:
-        init_position()
-        goto_photo()
+        init_position(mc)
+        goto_photo(mc)
         whole_scan()
-        goto_pick()
-        open_gripper()
+        goto_pick(mc)
+        open_gripper(mc)
         picking_scan()
-        picking_control()
-        close_gripper()
-        goto_place()
-        open_gripper()
-
-      
+        picking_control(mc)
+        close_gripper(mc)
+        goto_place(mc)
+        open_gripper(mc)
+        close_gripper(mc)
 
 if __name__ == "__main__":
     main()
