@@ -8,11 +8,11 @@ from pyzbar import pyzbar
 import socket
 
 
-mc = MyCobot('/dev/ttyACM0', 115200)
+
 # 로봇 제어 함 
 
 # 로봇팔 home position
-def init_position():
+def init_position(mc):
     print("go to home", mc.get_angles())
     mc.send_angles([0, 0, 0, 0, 0, 0], 30)
     time.sleep(10)
@@ -21,7 +21,7 @@ def init_position():
     time.sleep(1)
 
 # 전체 상자 스캔 위치로 이동
-def goto_photo():
+def goto_photo(mc):
     
     # mc.send_angles([90, 0, 0, 0, -90, 0], 90)
     # time.sleep(5)  # 로봇 각 동작 사이의 딜레이 설정
@@ -32,28 +32,28 @@ def goto_photo():
     time.sleep(5)
     print("go to take photo", mc.get_angles())
 
-def goto_pick():
+def goto_pick(mc):
     print("go to pick place", mc.get_angles())
 
 
 
-def picking_control():
+def picking_control(mc):
     print("on the picking area", mc.get_angles())
 
 
 
-def goto_place():
+def goto_place(mc):
     print("go to scanplace", mc.get_angles())
 
 
 
-def open_gripper():
+def open_gripper(mc):
     print("open gripper", mc.get_angles())
     mc.set_eletric_gripper(0)
     mc.set_gripper_value(100, 20)
     time.sleep(5)
 
-def close_gripper():
+def close_gripper(mc):
     print("close gripper", mc.get_angles())
     mc.set_eletric_gripper(1)
     mc.set_gripper_value(0, 20)
