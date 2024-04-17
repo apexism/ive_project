@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 =======
 # beta_code에서 작업후 확정시 master에 업로드
 
@@ -20,5 +20,4 @@ git push origin beta_code
 git pull origin master 
 # 브렌치끼리 이동하는 법
 git checkout [브렌치 이름]
->>>>>>> 693e8511dad7fddd1011e8e512d550188004105d
 

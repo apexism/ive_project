@@ -17,7 +17,7 @@ def read_qr_code():
         if decoded_objects:
             for obj in decoded_objects:
                 # QR 코드 정보 출력
-                print('QR Code:', obj.data)
+                # print('QR Code:', obj.data)
                 # QR 코드 위치 표시
                 points = obj.polygon
                 if len(points) > 4:
@@ -54,4 +54,3 @@ def read_qr_code():
 
 if __name__ == "__main__":
     read_qr_code()
-    

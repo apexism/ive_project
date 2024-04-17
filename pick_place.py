@@ -1,5 +1,4 @@
-from camera_control import *
-from pick_place import *
+# from camera_control import *
 from pymycobot.mycobot import MyCobot
 import time
 import cv2
@@ -14,7 +13,7 @@ import socket
 # 로봇팔 home position
 def init_position(mc):
     print("go to home", mc.get_angles())
-    mc.send_angles([0, 0, 0, 0, 0, 0], 30)
+    mc.send_angles([0, 0, 0, 0, 0, 0], 15)
     time.sleep(10)
     mc.set_gripper_mode(0)
     mc.init_eletric_gripper()
@@ -32,8 +31,10 @@ def goto_photo(mc):
     time.sleep(5)
     print("go to take photo", mc.get_angles())
 
+
 def goto_pick(mc):
     print("go to pick place", mc.get_angles())
+
 
 
 
@@ -47,11 +48,13 @@ def goto_place(mc):
 
 
 
+
 def open_gripper(mc):
     print("open gripper", mc.get_angles())
     mc.set_eletric_gripper(0)
     mc.set_gripper_value(100, 20)
     time.sleep(5)
+
 
 def close_gripper(mc):
     print("close gripper", mc.get_angles())
