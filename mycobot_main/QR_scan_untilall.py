@@ -30,7 +30,7 @@ def scan_frame(frame, height, width, scan_size, step_right, step_down, show=Fals
     return detected_qr_codes, qr_code_locations
 
 # 카메라 초기화
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
