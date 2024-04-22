@@ -27,7 +27,7 @@ def goto_photo(mc):
     # mc.send_coords([-100, -250, 350, -89.99, 90, -179.91], 90)
     coords = mc.get_coords()
     print(coords)
-    mc.send_coords([35, 250, 210, -180, 0, 90], 15)
+    mc.send_coords([119.5, -200.5, 195, -99.97, -5.63, -99.04], 15)
     time.sleep(5)
     print("go to take photo", mc.get_angles())
 

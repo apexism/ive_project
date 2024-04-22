@@ -6,7 +6,7 @@ marker_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
 
 param_markers = aruco.DetectorParameters_create()
 
-cap = cv.VideoCapture(0)
+cap = cv.VideoCapture(2)
 
 while True:
     ret, frame = cap.read()

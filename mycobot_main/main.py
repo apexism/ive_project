@@ -9,6 +9,8 @@ from pyzbar.pyzbar import decode
 import socket
 import numpy as np
 import math
+import sys
+
 
 def send_data_via_socket(data):
     # 서버의 IP 주소와 포트 번호
@@ -32,25 +34,30 @@ def send_data_via_socket(data):
         # 소켓 닫기
         client_socket.close()
 
-
+def port_setting():
+    if sys.platform == 'win32':
+        return "COM3", 115200
+    return "/dev/ttyACM0", 115200
 
 # 메인 함수
 def main():
-    mc = MyCobot('/dev/ttyACM0', 115200)
+    port, baud = port_setting()
+    mc = MyCobot(port, baud)
+    
    
     while True:
 
         init_position(mc)
         goto_photo(mc)
         whole_scan()
-        goto_pick(mc)
-        open_gripper(mc)
-        picking_scan()
-        picking_control(mc)
-        close_gripper(mc)
-        goto_place(mc)
-        open_gripper(mc)
-        close_gripper(mc)
+        # goto_pick(mc)
+        # open_gripper(mc)
+        # picking_scan()
+        # picking_control(mc)
+        # close_gripper(mc)
+        # goto_place(mc)
+        # open_gripper(mc)
+        # close_gripper(mc)
 
       
 

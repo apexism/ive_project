@@ -2,7 +2,7 @@ import cv2 as cv
 from cv2 import aruco
 import numpy as np
 
-calib_data_path = "/home/jwy/checkerboard/Basic-Augmented-reality-course-opencv-master/calib_data/MultiMatrix.npz"
+calib_data_path = "checkerboard/Basic-Augmented-reality-course-opencv-master/calib_data/MultiMatrix.npz"
 
 calib_data = np.load(calib_data_path)
 print(calib_data.files)
