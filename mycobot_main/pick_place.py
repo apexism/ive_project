@@ -11,13 +11,13 @@ import socket
 # 로봇 제어 함 
 
 # 로봇팔 home position
-def init_position(mc):
-    print("go to home", mc.get_angles())
-    mc.send_angles([0, 0, 0, 0, 0, 0], 15)
-    time.sleep(10)
+def init_gripper(mc):
+    # print("go to home", mc.get_angles())
+    # mc.send_angles([0, 0, 0, 0, 0, 0], 15)
+    # time.sleep(10)
     mc.set_gripper_mode(0)
     mc.init_eletric_gripper()
-    time.sleep(1)
+    # time.sleep(1)
 
 # 전체 상자 스캔 위치로 이동
 def goto_photo(mc):
@@ -50,16 +50,24 @@ def goto_place(mc):
 
 
 def open_gripper(mc):
-    print("open gripper", mc.get_angles())
+    print("open gripper")
     mc.set_eletric_gripper(0)
     mc.set_gripper_value(100, 20)
+    # print(mc.get_gripper_value())
+    init_gripper(mc)
+    time.sleep(1)
+    open_gripper(mc)
     time.sleep(5)
 
 
 def close_gripper(mc):
-    print("close gripper", mc.get_angles())
+    print("close gripper")
     mc.set_eletric_gripper(1)
-    mc.set_gripper_value(0, 20)
+    mc.set_gripper_value(5, 20)
+    # print(mc.get_gripper_value())
+    init_gripper(mc)
+    time.sleep(1)
+    close_gripper(mc)
     time.sleep(5)
     
     

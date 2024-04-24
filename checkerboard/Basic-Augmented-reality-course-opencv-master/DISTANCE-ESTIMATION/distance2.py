@@ -14,13 +14,13 @@ t_vectors = calib_data["tVector"]
 
 MARKER_SIZE = 8  # centimeters
 
-# marker_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
-# param_markers = aruco.DetectorParameters_create()
+marker_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
+param_markers = aruco.DetectorParameters_create()
 
 
-marker_dict = cv.aruco.getPredefinedDictionary(cv.aruco.DICT_4X4_250)
-param_markers =  cv.aruco.DetectorParameters()
-detector = cv.aruco.ArucoDetector(marker_dict, param_markers)
+#marker_dict = cv.aruco.getPredefinedDictionary(cv.aruco.DICT_4X4_250)
+#param_markers =  cv.aruco.DetectorParameters()
+#detector = cv.aruco.ArucoDetector(marker_dict, param_markers)
 
 cap = cv.VideoCapture(2)
 
