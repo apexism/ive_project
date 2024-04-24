@@ -1,15 +1,20 @@
-from camera_control import *
-from pick_place import *
-from pymycobot.mycobot import MyCobot
+from pymycobot.mycobot import MyCobot               #mycobot 라이브러리 import
+
+import camera_control as cc                         #사용자 정의 모듈들(cc: 카메라 스캔 관련, pp: 로봇 움직임 관련, cd: 색상 및 객체 인식)                         
+from pick_place import pp
+import color_detect as cd
+
+from pyzbar import pyzbar                           #바코드 인식 관련 모듈
+from pyzbar.pyzbar import decode
+
 import time
 import cv2
 import os
-from pyzbar import pyzbar
-from pyzbar.pyzbar import decode
-import socket
+import socket                                       #소켓통신
 import numpy as np
 import math
 import sys
+
 
 
 def send_data_via_socket(data):
@@ -34,7 +39,8 @@ def send_data_via_socket(data):
         # 소켓 닫기
         client_socket.close()
 
-def port_setting():
+# 환경별 포트 셋팅
+def port_setting():                                                              
     if sys.platform == 'win32':
         return "COM3", 115200
     return "/dev/ttyACM0", 115200
@@ -47,9 +53,9 @@ def main():
    
     while True:
 
-        init_position(mc)
-        goto_photo(mc)
-        whole_scan()
+        # init_position(mc)
+        # goto_photo(mc)
+        # whole_scan()
         # goto_pick(mc)
         # open_gripper(mc)
         # picking_scan()
@@ -58,6 +64,8 @@ def main():
         # goto_place(mc)
         # open_gripper(mc)
         # close_gripper(mc)
+
+
 
       
 

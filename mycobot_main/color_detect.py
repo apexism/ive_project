@@ -2,18 +2,21 @@ import cv2
 import numpy as np
 
 def c_detect():
-    webcam_video = cv2.VideoCapture(2)
-    success, video = webcam_video.read()
+    webcam_video = cv2.VideoCapture(2)                 # videocapture(리눅스는 0, 윈도우는 1, mycobot camera는 2)
+    success, video = webcam_video.read()               
 
     if not success:
         print("Failed to grab frame")
         webcam_video.release()
         return
 
-    # video = cv2.flip(video, 1)
-    hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV)
+    # video = cv2.flip(video, 1)                            # 비디오 좌우반전 
+    hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV)        # BGR 에서 HSV 색공간으로 변환
+    
+    # 색 정의 함수
     lower_yellow = np.array([15, 150, 20])
     upper_yellow = np.array([35, 255, 255])
+    
     yellow_mask = cv2.inRange(hsv_img, lower_yellow, upper_yellow)
     yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 

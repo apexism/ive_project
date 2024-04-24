@@ -8,14 +8,19 @@ time.sleep(1)
 
 while True:
     mc.set_eletric_gripper(0)
-    mc.set_gripper_value(10,1)
+    mc.set_gripper_value(100,20)
     print("open gripper")
     time.sleep(5)
+    print(mc.get_gripper_value())
+   
 
     mc.set_eletric_gripper(1)
-    mc.set_gripper_value(0,1)
+    mc.set_gripper_value(0,20)
     print("close gripper")
     time.sleep(5)
+    print(mc.get_gripper_value())
+
+    
 
 
 # mc.set_eletric_gripper(0)

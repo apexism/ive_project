@@ -4,19 +4,16 @@ from pymycobot.mycobot import MyCobot
 import time
 
 mc = MyCobot('/dev/ttyACM0', 115200)
-# mc.send_angles([8.43, 22.06, -75.67, -31.64, 90, 0], 40)
-mc.send_coords([240.8, -52.3, 321.1, -174.81, 0.26, -81.45], 40)
-time.sleep(5)
 
 mc.set_end_type(1)
-mc.set_gripper_mode(0)
-mc.init_eletric_gripper()
-mc.set_eletric_gripper(1)
-mc.set_gripper_value(0, 20)
-
 mc.set_tool_reference([0,-85,0,0,0,0])
 
+# mc.send_angles([8.43, 22.06, -75.67, -31.64, 90, 0], 40)
+# mc.send_coords([270.0, 20.0, 320.0, -180.0, 0.0, -45], 40)
+print(mc.get_angles())
+time.sleep(5)
 
+mc.set_gripper_mode(0)
 
 while True:
     # 웹캠 비디오 가져오기
@@ -69,13 +66,13 @@ while True:
                 
                 # 회전된 사각형의 중심 좌표 가져오기
                 (x, y), (w, h), angle = rect
-                print(f"{x}, {y}")
+                print(f"{x}, {y}, {angle}")
 
                 # 이미지 중심을 기준으로 좌표 조정
                 x_relative = x - center_x_img
                 y_relative = y - center_y_img
 
-                print(f"{x_relative}, {y_relative}")
+                print(f"{x_relative}, {y_relative}, {angle}")
                 
                 # 회전된 축의 중심 그리기
                 cv2.circle(video, (int(x), int(y)), 5, (255, 255, 0), -1)
