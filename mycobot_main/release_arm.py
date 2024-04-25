@@ -28,6 +28,10 @@ from pynput import keyboard
 
 mc = MyCobot('/dev/ttyACM0', 115200)
 
+mc.set_end_type(1)
+mc.set_tool_reference([0,-10,165,0,0,0])
+time.sleep(1)
+
 def on_press(key):
     try:
         if key.char == 's':  # s 키를 눌렀을 때
@@ -46,7 +50,9 @@ listener.start()
 
 while True:
     angles = mc.get_angles()
+    coords = mc.get_coords()
     print("각도: ", angles)
+    print("좌표: ", coords)
     time.sleep(1)
 
 
