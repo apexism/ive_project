@@ -1,6 +1,59 @@
 import cv2
 import numpy as np
 
+color = ""
+
+x_relative = 0
+y_relative = 0
+w = 0
+h = 0
+angle = 0
+
+def draw_box(contour, video, center_x_img, center_y_img):
+    if cv2.contourArea(contour) > 500:
+        rect = cv2.minAreaRect(contour)
+        bounding_x, bounding_y, bounding_w, bounding_h = cv2.boundingRect(contour)
+        box = cv2.boxPoints(rect)
+        box = np.intp(box)
+        cv2.drawContours(video, [box], 0, (0, 0, 255), 3)
+
+        global x_relative
+        global y_relative
+        global w
+        global h
+        global angle
+
+        (x, y), (w, h), angle = rect
+
+        # 이미지 중심을 기준으로 좌표 조정
+        x_relative = x - center_x_img
+        y_relative = y - center_y_img
+
+        cv2.circle(video, (int(x), int(y)), 5, (255, 255, 0), -1)
+        # 나머지 코드 ...
+        # 회전 변환 행렬 생성
+        M = cv2.getRotationMatrix2D((x, y), angle, 1)
+        
+        # 회전된 축 그리기
+        x_axis = np.array([[-w/2, w/2], [0, 0], [1, 1]])
+        y_axis = np.array([[0, 0], [-h/2, h/2], [1, 1]])
+        
+        transformed_x_axis = np.dot(M, x_axis)
+        transformed_y_axis = np.dot(M, y_axis)
+        
+        # 회전된 x축 그리기
+        cv2.line(video, (int(transformed_x_axis[0][0] + x), int(transformed_x_axis[1][0] + y)),
+                    (int(transformed_x_axis[0][1] + x), int(transformed_x_axis[1][1] + y)), (0, 255, 0), 2)
+        
+        # 회전된 y축 그리기
+        cv2.line(video, (int(transformed_y_axis[0][0] + x), int(transformed_y_axis[1][0] + y)),
+                    (int(transformed_y_axis[0][1] + x), int(transformed_y_axis[1][1] + y)), (0, 255, 0), 2)
+        
+        text_position = (bounding_x + 5, bounding_y + 25)  # 텍스트 위치를 사각형의 좌상단 근처로 설정
+        cv2.putText(video, color, text_position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+
+
 def c_detect():
     webcam_video = cv2.VideoCapture(2)                 # videocapture(리눅스는 0, 윈도우는 1, mycobot camera는 2)
     success, video = webcam_video.read()               
@@ -13,59 +66,87 @@ def c_detect():
     # video = cv2.flip(video, 1)                            # 비디오 좌우반전 
     hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV)        # BGR 에서 HSV 색공간으로 변환
     
-    # 색 정의 함수
+    # 노란색 감지를 위한 마스크 세팅
     lower_yellow = np.array([15, 150, 20])
     upper_yellow = np.array([35, 255, 255])
-    
     yellow_mask = cv2.inRange(hsv_img, lower_yellow, upper_yellow)
-    yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+    # 빨간색 감지를 위한 마스크 세팅
+    lower_red1 = np.array([0, 120, 70])
+    upper_red1 = np.array([10, 255, 255])
+    red_mask1 = cv2.inRange(hsv_img, lower_red1, upper_red1)
+    lower_red2 = np.array([170, 120, 70])
+    upper_red2 = np.array([180, 255, 255])
+    red_mask = red_mask1 + cv2.inRange(hsv_img, lower_red2, upper_red2)
+    
+    # 녹색 감지를 위한 마스크 세팅
+    lower_green = np.array([60, 80, 90])
+    upper_green = np.array([80, 255, 255])
+    green_mask = cv2.inRange(hsv_img, lower_green, upper_green)
+
+    # 파란색 감지를 위한 HSV 범위
+    lower_blue = np.array([90, 100, 75])
+    upper_blue = np.array([120, 255, 255])
+    blue_mask = cv2.inRange(hsv_img, lower_blue, upper_blue)
+
+    yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    red_contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    green_contours, _ = cv2.findContours(green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    blue_contours, _ = cv2.findContours(blue_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
     # 이미지 차원으로 중심 좌표 계산
     height, width = video.shape[:2]
     center_x_img, center_y_img = width // 2, height // 2
+    
+    global color
+    global x_relative
+    global y_relative
+    global w
+    global h
+    global angle
 
+    # yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if yellow_contours:
         for yellow_contour in yellow_contours:
-            if cv2.contourArea(yellow_contour) > 500:
-                rect = cv2.minAreaRect(yellow_contour)
-                box = cv2.boxPoints(rect)
-                box = np.intp(box)
-                cv2.drawContours(video, [box], 0, (0, 0, 255), 3)
-
-                (x, y), (w, h), angle = rect
-
-                # 이미지 중심을 기준으로 좌표 조정
-                x_relative = x - center_x_img
-                y_relative = y - center_y_img
-
-                cv2.circle(video, (int(x), int(y)), 5, (255, 255, 0), -1)
-                # 나머지 코드 ...
-                # 회전 변환 행렬 생성
-                M = cv2.getRotationMatrix2D((x, y), angle, 1)
-                
-                # 회전된 축 그리기
-                x_axis = np.array([[-w/2, w/2], [0, 0], [1, 1]])
-                y_axis = np.array([[0, 0], [-h/2, h/2], [1, 1]])
-                
-                transformed_x_axis = np.dot(M, x_axis)
-                transformed_y_axis = np.dot(M, y_axis)
-                
-                # 회전된 x축 그리기
-                cv2.line(video, (int(transformed_x_axis[0][0] + x), int(transformed_x_axis[1][0] + y)),
-                            (int(transformed_x_axis[0][1] + x), int(transformed_x_axis[1][1] + y)), (0, 255, 0), 2)
-                
-                # 회전된 y축 그리기
-                cv2.line(video, (int(transformed_y_axis[0][0] + x), int(transformed_y_axis[1][0] + y)),
-                            (int(transformed_y_axis[0][1] + x), int(transformed_y_axis[1][1] + y)), (0, 255, 0), 2)
-
+            contour = yellow_contour
+            color = "y"
+            draw_box(contour, video, center_x_img, center_y_img)
+    if red_contours:
+        for red_contour in red_contours:
+            contour = red_contour
+            color = "r"
+            draw_box(contour, video, center_x_img, center_y_img)
+    if green_contours:
+        for green_contour in green_contours:
+            contour = green_contour
+            color = "g"
+            draw_box(contour, video, center_x_img, center_y_img)
+    if blue_contours:
+        for blue_contour in blue_contours:
+            contour = blue_contour
+            color = "b"
+            draw_box(contour, video, center_x_img, center_y_img)
+    
     while True:
         cv2.imshow("Rotating Axes", video)
+        cv2.imshow('yellow_mask', yellow_mask)
+        cv2.imshow('red_mask', red_mask)
+        cv2.imshow('green_mask', green_mask)
+        cv2.imshow('blue_mask', blue_mask)
+        cv2.moveWindow('Rotating', 0, 0)
+        cv2.moveWindow('yellow_mask', 641, 0)
+        cv2.moveWindow('red_mask', 1281, 0)
+        cv2.moveWindow('green_mask', 0, 481)
+        cv2.moveWindow('blue_mask', 641, 481)
+
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
     webcam_video.release()
     cv2.destroyAllWindows()
 
-    return (int(x_relative), int(y_relative), int(w), int(h), angle)
+    print(color, int(x_relative), int(y_relative), int(w), int(h), angle)
+    return (color, int(x_relative), int(y_relative), int(w), int(h), angle)
 
 # c_detect()
+# print(color, (int(x_relative), int(y_relative), int(w), int(h), angle))
