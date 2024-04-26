@@ -79,7 +79,7 @@ def init_position(yellow_flag, red_flag, green_flag, blue_flag):
             z_offset = 26 * 2
         else:
             z_offset = 26 * 2
-        x_offset = -100
+        x_offset = -80
         yellow_flag += 1
     elif color == "r":
         if red_flag == 0:
@@ -101,7 +101,7 @@ def init_position(yellow_flag, red_flag, green_flag, blue_flag):
             z_offset = 26 * 2
         else:
             z_offset = 26 * 2
-        x_offset = 40
+        x_offset = 20
         green_flag += 1
     else:
         if blue_flag == 0:
@@ -112,13 +112,13 @@ def init_position(yellow_flag, red_flag, green_flag, blue_flag):
             z_offset = 26 * 2
         else:
             z_offset = 26 * 2
-        x_offset = 110
+        x_offset = 70
         blue_flag += 1
 
     mc.send_coords([0 + x_offset, -230 , 130, -180, -0, -90], 60)
     time.sleep(5)
 
-    mc.send_coords([0 + x_offset, -230 , 24 + z_offset, -180, -0, -90], 15)
+    mc.send_coords([0 + x_offset, -230 , 25 + z_offset, -180, -0, -90], 15)
     time.sleep(10)
     
     pp.open_gripper(mc)
