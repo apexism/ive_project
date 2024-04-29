@@ -51,7 +51,7 @@ def init_position(yellow_flag, red_flag, green_flag, blue_flag):
     
     mc.send_angles([0,0,0,0,0,0], 30)
     time.sleep(5)
-    mc.send_angles([30, -20, -10, -55, 85, -65], 60)
+    mc.send_angles([30, -10, -10, -55, 85, -65], 60)
     time.sleep(5)
     
     mc.set_end_type(1)
@@ -64,6 +64,14 @@ def init_position(yellow_flag, red_flag, green_flag, blue_flag):
 
     mc.send_coords([225 - y, 20 - x, 170, 180, 0, -ang], 60)
     time.sleep(5)
+
+    # plc에 동작 신호 보내기
+    mc.set_basic_output(1,0)
+    time.sleep(1)
+    mc.set_basic_output(1,1)
+    time.sleep(1)
+    mc.set_basic_output(2,1)
+    time.sleep(1)
 
     mc.send_angles([66, -5, 50, 45, -90, -25], 60)
     time.sleep(5)

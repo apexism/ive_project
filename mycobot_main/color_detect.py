@@ -9,8 +9,10 @@ w = 0
 h = 0
 angle = 0
 
-def draw_box(contour, video, center_x_img, center_y_img):
-    if cv2.contourArea(contour) > 500:
+def draw_box(contour, video, center_x_img, center_y_img, con_color):
+    if cv2.contourArea(contour) > 2000:
+        print(con_color, cv2.contourArea(contour))
+    if cv2.contourArea(contour) > 3000:
         rect = cv2.minAreaRect(contour)
         bounding_x, bounding_y, bounding_w, bounding_h = cv2.boundingRect(contour)
         box = cv2.boxPoints(rect)
@@ -22,8 +24,10 @@ def draw_box(contour, video, center_x_img, center_y_img):
         global w
         global h
         global angle
+        global color
 
         (x, y), (w, h), angle = rect
+        color = con_color
 
         # 이미지 중심을 기준으로 좌표 조정
         x_relative = x - center_x_img
@@ -67,33 +71,36 @@ def c_detect():
     hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV)        # BGR 에서 HSV 색공간으로 변환
     
     # 노란색 감지를 위한 마스크 세팅
-    lower_yellow = np.array([15, 150, 20])
-    upper_yellow = np.array([35, 255, 255])
+    lower_yellow = np.array([15, 60, 60])
+    upper_yellow = np.array([45, 255, 255])
     yellow_mask = cv2.inRange(hsv_img, lower_yellow, upper_yellow)
 
     # 빨간색 감지를 위한 마스크 세팅
-    lower_red1 = np.array([0, 120, 70])
+    lower_red1 = np.array([0, 70, 50])
     upper_red1 = np.array([10, 255, 255])
     red_mask1 = cv2.inRange(hsv_img, lower_red1, upper_red1)
-    lower_red2 = np.array([170, 120, 70])
+    lower_red2 = np.array([170, 70, 50])
     upper_red2 = np.array([180, 255, 255])
     red_mask = red_mask1 + cv2.inRange(hsv_img, lower_red2, upper_red2)
     
     # 녹색 감지를 위한 마스크 세팅
-    lower_green = np.array([60, 80, 90])
+    lower_green = np.array([45, 80, 85])
     upper_green = np.array([80, 255, 255])
     green_mask = cv2.inRange(hsv_img, lower_green, upper_green)
 
     # 파란색 감지를 위한 HSV 범위
+    # lower_blue = np.array([90, 100, 75])
+    # upper_blue = np.array([120, 255, 255])
+    
     lower_blue = np.array([90, 100, 75])
-    upper_blue = np.array([120, 255, 255])
+    upper_blue = np.array([130, 255, 255])
     blue_mask = cv2.inRange(hsv_img, lower_blue, upper_blue)
+    
 
     yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     red_contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     green_contours, _ = cv2.findContours(green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     blue_contours, _ = cv2.findContours(blue_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
     # 이미지 차원으로 중심 좌표 계산
     height, width = video.shape[:2]
     center_x_img, center_y_img = width // 2, height // 2
@@ -105,27 +112,27 @@ def c_detect():
     global h
     global angle
 
-    # yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if yellow_contours:
         for yellow_contour in yellow_contours:
             contour = yellow_contour
-            color = "y"
-            draw_box(contour, video, center_x_img, center_y_img)
+            con_color = "y"
+            draw_box(contour, video, center_x_img, center_y_img, con_color)
     if red_contours:
         for red_contour in red_contours:
             contour = red_contour
-            color = "r"
-            draw_box(contour, video, center_x_img, center_y_img)
+            con_color = "r"
+            draw_box(contour, video, center_x_img, center_y_img, con_color)
     if green_contours:
         for green_contour in green_contours:
             contour = green_contour
-            color = "g"
-            draw_box(contour, video, center_x_img, center_y_img)
+            con_color = "g"
+            draw_box(contour, video, center_x_img, center_y_img, con_color)
     if blue_contours:
         for blue_contour in blue_contours:
             contour = blue_contour
-            color = "b"
-            draw_box(contour, video, center_x_img, center_y_img)
+            con_color = "b"
+            draw_box(contour, video, center_x_img, center_y_img, con_color)
+ 
     
     while True:
         cv2.imshow("Rotating Axes", video)
@@ -133,18 +140,21 @@ def c_detect():
         cv2.imshow('red_mask', red_mask)
         cv2.imshow('green_mask', green_mask)
         cv2.imshow('blue_mask', blue_mask)
+   
         cv2.moveWindow('Rotating', 0, 0)
         cv2.moveWindow('yellow_mask', 641, 0)
         cv2.moveWindow('red_mask', 1281, 0)
         cv2.moveWindow('green_mask', 0, 481)
         cv2.moveWindow('blue_mask', 641, 481)
 
+
+
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
     webcam_video.release()
     cv2.destroyAllWindows()
-
+    
     print(color, int(x_relative), int(y_relative), int(w), int(h), angle)
     return (color, int(x_relative), int(y_relative), int(w), int(h), angle)
 
