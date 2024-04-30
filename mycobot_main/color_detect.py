@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 color = ""
 
@@ -71,7 +72,7 @@ def c_detect():
     hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV)        # BGR 에서 HSV 색공간으로 변환
     
     # 노란색 감지를 위한 마스크 세팅
-    lower_yellow = np.array([15, 60, 60])
+    lower_yellow = np.array([15, 60, 75])
     upper_yellow = np.array([45, 255, 255])
     yellow_mask = cv2.inRange(hsv_img, lower_yellow, upper_yellow)
 
@@ -133,24 +134,26 @@ def c_detect():
             con_color = "b"
             draw_box(contour, video, center_x_img, center_y_img, con_color)
  
-    
+    starting_time = time.time()
     while True:
-        cv2.imshow("Rotating Axes", video)
         cv2.imshow('yellow_mask', yellow_mask)
         cv2.imshow('red_mask', red_mask)
         cv2.imshow('green_mask', green_mask)
         cv2.imshow('blue_mask', blue_mask)
-   
-        cv2.moveWindow('Rotating', 0, 0)
+        cv2.imshow("Rotating Axes", video)
+
         cv2.moveWindow('yellow_mask', 641, 0)
         cv2.moveWindow('red_mask', 1281, 0)
         cv2.moveWindow('green_mask', 0, 481)
         cv2.moveWindow('blue_mask', 641, 481)
+        cv2.moveWindow('Rotating', 0, 0)
 
-
-
-        if cv2.waitKey(1) & 0xFF == 27:
+        current_time = time.time()
+        if (current_time - starting_time) > 0.5:
             break
+        elif cv2.waitKey(1) & 0xFF == 27:
+            break
+
 
     webcam_video.release()
     cv2.destroyAllWindows()

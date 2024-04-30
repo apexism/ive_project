@@ -54,7 +54,7 @@ def open_gripper(mc):
     mc.set_eletric_gripper(0)
     mc.set_gripper_value(100, 20, 1)
     # print(mc.get_gripper_value())
-    time.sleep(5)
+    time.sleep(3)
     # print(mc.get_gripper_value())
 
 def close_gripper(mc):
@@ -62,7 +62,7 @@ def close_gripper(mc):
     mc.set_eletric_gripper(1)
     mc.set_gripper_value(16, 20, 1)
     # print(mc.get_gripper_value())
-    time.sleep(5)
+    time.sleep(3)
     # print(mc.get_gripper_value())
     
     
