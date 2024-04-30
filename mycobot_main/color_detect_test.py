@@ -75,26 +75,29 @@ def c_detect():
         hsv_img = cv2.cvtColor(video, cv2.COLOR_BGR2HSV) 
 
         # 노란색 감지를 위한 마스크 세팅
-        lower_yellow = np.array([15, 150, 20])
-        upper_yellow = np.array([35, 255, 255])
+        lower_yellow = np.array([15, 60, 75])
+        upper_yellow = np.array([45, 255, 255])
         yellow_mask = cv2.inRange(hsv_img, lower_yellow, upper_yellow)
 
         # 빨간색 감지를 위한 마스크 세팅
-        lower_red1 = np.array([0, 120, 70])
+        lower_red1 = np.array([0, 70, 50])
         upper_red1 = np.array([10, 255, 255])
         red_mask1 = cv2.inRange(hsv_img, lower_red1, upper_red1)
-        lower_red2 = np.array([170, 120, 70])
+        lower_red2 = np.array([170, 70, 50])
         upper_red2 = np.array([180, 255, 255])
         red_mask = red_mask1 + cv2.inRange(hsv_img, lower_red2, upper_red2)
         
         # 녹색 감지를 위한 마스크 세팅
-        lower_green = np.array([60, 80, 90])
+        lower_green = np.array([45, 65, 85])
         upper_green = np.array([80, 255, 255])
         green_mask = cv2.inRange(hsv_img, lower_green, upper_green)
 
         # 파란색 감지를 위한 HSV 범위
+        # lower_blue = np.array([90, 100, 75])
+        # upper_blue = np.array([120, 255, 255])
+        
         lower_blue = np.array([90, 100, 75])
-        upper_blue = np.array([120, 255, 255])
+        upper_blue = np.array([130, 255, 255])
         blue_mask = cv2.inRange(hsv_img, lower_blue, upper_blue)
 
         yellow_contours, _ = cv2.findContours(yellow_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

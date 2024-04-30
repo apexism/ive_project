@@ -52,17 +52,17 @@ def goto_place(mc):
 def open_gripper(mc):
     print("open gripper")
     mc.set_eletric_gripper(0)
-    mc.set_gripper_value(100, 20, 1)
+    mc.set_gripper_value(100, 80, 1)
     # print(mc.get_gripper_value())
-    time.sleep(3)
+    time.sleep(1)
     # print(mc.get_gripper_value())
 
 def close_gripper(mc):
     print("close gripper")
     mc.set_eletric_gripper(1)
-    mc.set_gripper_value(16, 20, 1)
+    mc.set_gripper_value(16, 80, 1)
     # print(mc.get_gripper_value())
-    time.sleep(3)
+    time.sleep(1)
     # print(mc.get_gripper_value())
     
     

@@ -85,7 +85,7 @@ def c_detect():
     red_mask = red_mask1 + cv2.inRange(hsv_img, lower_red2, upper_red2)
     
     # 녹색 감지를 위한 마스크 세팅
-    lower_green = np.array([45, 80, 85])
+    lower_green = np.array([45, 70, 85])
     upper_green = np.array([80, 255, 255])
     green_mask = cv2.inRange(hsv_img, lower_green, upper_green)
 

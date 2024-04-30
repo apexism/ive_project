@@ -19,11 +19,11 @@ mc = MyCobot('/dev/ttyACM0', 115200)
 # 로봇팔 home position
 def init_position(yellow_flag, red_flag, green_flag):
     print("go to home")
-    mc.set_gripper_mode(0)
-    mc.init_eletric_gripper()
     mc.send_angles([0,0,0,0,0,0], 100)
     time.sleep(2)
-    
+    mc.set_gripper_mode(0)
+    mc.init_eletric_gripper()
+    time.sleep(1)
 
     # Tool initialization
     mc.set_end_type(1)
@@ -32,12 +32,12 @@ def init_position(yellow_flag, red_flag, green_flag):
     # mc.send_angles([155.83, -29.09, 73.3, 42.62, -88.68, -27.59], 20)
     # mc.send_angles([155.83, -29.09, 63.3, 42.62, -88.68, -27.59], 100)
     # time.sleep(2)
-    # mc.send_angles([30, -10, -10, -55, 85, -65], 100)
-    # time.sleep(1)
+    mc.send_angles([30, -10, -10, -55, 85, -65], 100)
+    time.sleep(2)
     
     # 촬영 모션
-    mc.send_coords([142.1, 4.5, 320, -180, 0.0, -90], 100)
-    time.sleep(5)
+    mc.send_coords([142.1, 4.5, 308.6, -180, 0.0, -90], 100)
+    time.sleep(8)
     
     color, x, y, w, h, ang = cd.c_detect()
     if color == "b":
@@ -53,8 +53,8 @@ def init_position(yellow_flag, red_flag, green_flag):
 
         w_px = 26 / w
         h_px = 26 / h
-        x = x * w_px +15
-        y = y * h_px 
+        x = x * w_px + 12
+        y = y * h_px - 7
 
         print(f"x:{x}mm, y:{y}mm, w:{w}, h:{h}, angle:{ang}")
         
@@ -66,12 +66,12 @@ def init_position(yellow_flag, red_flag, green_flag):
         # 툴 세팅
         mc.set_end_type(1)
         mc.set_tool_reference([0,-15,165,0,0,0])
-        # time.sleep(1)
+        time.sleep(1)
 
         # 피킹 진입 모션
         mc.send_coords([225 - y, 20 - x, 170, 180, 0, -ang], 100)
         print(f"@@@@@@@: {mc.get_coords()}")
-        time.sleep(2.5)
+        time.sleep(3)
 
         mc.set_eletric_gripper(1)
         mc.set_gripper_value(50, 20, 1)
@@ -79,9 +79,9 @@ def init_position(yellow_flag, red_flag, green_flag):
 
         # 피킹 포지션
         mc.send_coords([225 - y, 20 - x, 135, 180, 0, -ang], 60)
-        time.sleep(2.5)
+        time.sleep(5)
         pp.close_gripper(mc)
-        # time.sleep(1)
+        time.sleep(1)
 
         # 피킹 후 빠져나오는 모션
         mc.send_coords([225 - y, 20 - x, 170, 180, 0, -ang], 100)
@@ -126,11 +126,11 @@ def init_position(yellow_flag, red_flag, green_flag):
             if green_flag == 0:
                 z_offset = 0
             elif green_flag == 1:
-                z_offset = 24
+                z_offset = 26
             elif green_flag == 2:
-                z_offset = 24 * 2
+                z_offset = 26 * 2
             else:
-                z_offset = 24 * 2
+                z_offset = 26 * 2
             x_offset = 70
             green_flag += 1
         # else:
@@ -150,20 +150,21 @@ def init_position(yellow_flag, red_flag, green_flag):
         time.sleep(3)
 
         # 플레이싱 포지션
-        mc.send_coords([0 + x_offset, -230 , 24 + z_offset, -180, -0, -90], 70)
-        time.sleep(3)
+        mc.send_coords([0 + x_offset, -230 , 27 + z_offset, -180, -0, -90], 70)
+        time.sleep(7)
         
         pp.open_gripper(mc)
+        time.sleep(1)
 
         print(f"yellow_flag: {yellow_flag}, red_flag: {red_flag}, green_flag: {green_flag}, blue_flag: {blue_flag}")
 
         # 플레이싱 후 빠져 나오는 모션
         mc.send_coords([0 + x_offset, -230 , 150, -180, -0, -90], 100)
-        time.sleep(1)
+        time.sleep(2)
         
-        # mc.set_eletric_gripper(0)
-        # mc.set_gripper_value(20, 20, 1)
-        # time.sleep(1)
+        mc.set_eletric_gripper(0)
+        mc.set_gripper_value(30, 20, 1)
+        time.sleep(1)
 
         coords = mc.get_coords()
         print(coords)
