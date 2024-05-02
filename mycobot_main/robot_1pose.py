@@ -1,14 +1,15 @@
 from pymycobot.mycobot import MyCobot
 import time
 
-mc = MyCobot('/dev/ttyACM0', 115200)
-# mc.send_angles([30, -5, -30, -55, 85, -65], 20)
-# time.sleep(5)
+mc = MyCobot('/dev/ttyACM1', 115200)
+mc.send_angles([30, 0, 0, 0, 0, 0], 20)
+time.sleep(5)
 # mc.set_end_type(1)
 # mc.set_tool_reference([0,-10,165,0,0,0])
 # mc.set_tool_reference([0,-10,165,0,0,0])
 # time.sleep(1)
 print("coords 좌표 : ", mc.get_coords())
+
 # mc.send_coord(6, -135, 20)
 # mc.send_angle(6, 60, 20)
 # mc.send_coords([-50, -350.2, 333.83, -90.0, 45.1, 180], 40)
@@ -37,13 +38,13 @@ print("coords 좌표 : ", mc.get_coords())
 
 # 2024-04-30 찐찐막
 # 피킹 위치 티칭
-mc.set_end_type(1)
-mc.set_tool_reference([0,-10,165,0,0,0])
-time.sleep(1)
-mc.send_angles([30, -20, -10, -55, 85, -65], 40)
-time.sleep(3)
-mc.send_coords([225, 20, 130, 180, 0, 0], 10)
-time.sleep(3)
+# mc.set_end_type(1)
+# mc.set_tool_reference([0,-10,165,0,0,0])
+# time.sleep(1)
+# mc.send_angles([30, -20, -10, -55, 85, -65], 40)
+# time.sleep(3)
+# mc.send_coords([225, 20, 130, 180, 0, 0], 10)
+# time.sleep(3)
 
 # 촬영 위치 티칭
 # mc.send_angles([155.83, -29.09, 73.3, 42.62, -88.68, -27.59], 20)

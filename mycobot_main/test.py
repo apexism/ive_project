@@ -13,7 +13,7 @@ red_flag = 0
 blue_flag = 0
 green_flag = 0
 
-mc = MyCobot('/dev/ttyACM0', 115200)
+mc = MyCobot('/dev/ttyACM1', 115200)
 # 로봇 제어 함
 
 # 로봇팔 home position
@@ -53,8 +53,8 @@ def init_position(yellow_flag, red_flag, green_flag):
 
         w_px = 26 / w
         h_px = 26 / h
-        x = x * w_px +15
-        y = y * h_px 
+        x = x * w_px
+        y = y * h_px
 
         print(f"x:{x}mm, y:{y}mm, w:{w}, h:{h}, angle:{ang}")
         
@@ -69,7 +69,7 @@ def init_position(yellow_flag, red_flag, green_flag):
         # time.sleep(1)
 
         # 피킹 진입 모션
-        mc.send_coords([225 - y, 20 - x, 170, 180, 0, -ang], 100)
+        mc.send_coords([235 - y, -5 - x, 170, 180, 0, -ang], 100)
         print(f"@@@@@@@: {mc.get_coords()}")
         time.sleep(2.5)
 
@@ -78,14 +78,14 @@ def init_position(yellow_flag, red_flag, green_flag):
         time.sleep(1)
 
         # 피킹 포지션
-        mc.send_coords([225 - y, 20 - x, 135, 180, 0, -ang], 60)
-        time.sleep(2.5)
+        mc.send_coords([235 - y, -5 - x, 140, 180, 0, -ang], 60)
+        time.sleep(4)
         pp.close_gripper(mc)
         # time.sleep(1)
 
         # 피킹 후 빠져나오는 모션
-        mc.send_coords([225 - y, 20 - x, 170, 180, 0, -ang], 100)
-        time.sleep(2)
+        mc.send_coords([235 - y, -5 - x, 180, 180, 0, -ang], 100)
+        time.sleep(3)
 
         # plc에 동작 신호 보내기
         mc.set_basic_output(1,0)
@@ -147,11 +147,11 @@ def init_position(yellow_flag, red_flag, green_flag):
 
         # 플레이싱 진입 모션
         mc.send_coords([0 + x_offset, -230 , 150, -180, -0, -90], 100)
-        time.sleep(3)
+        time.sleep(2)
 
         # 플레이싱 포지션
-        mc.send_coords([0 + x_offset, -230 , 24 + z_offset, -180, -0, -90], 70)
-        time.sleep(3)
+        mc.send_coords([0 + x_offset, -230 , 25 + z_offset, -180, -0, -90], 70)
+        time.sleep(5)
         
         pp.open_gripper(mc)
 
